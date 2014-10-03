@@ -1,0 +1,35 @@
+---
+title: "SpaceTimeViz Tutorial"
+author: "Kevin M. Purcell"
+date: "Friday, October 03, 2014"
+output: html_document
+---
+
+## Horizonplots
+
+
+
+```{r}
+library(rfisheries)
+library(plyr)
+countries <- of_country_codes()
+# let's take a small subset, say 5 random countries
+c_list <- countries[sample(nrow(countries), 5),]$iso3c
+# and grab landings data for these countries
+results <- ldply(c_list, function(x) {
+    df <- of_landings(country = x)
+    df$country  <-  x
+    df
+}, .progress = 'text')
+
+res <- dcast(results)
+
+```
+
+You can also embed plots, for example:
+
+```{r, echo=FALSE}
+plot(cars)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
